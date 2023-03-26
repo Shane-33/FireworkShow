@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <meta name="viewport" content="user-scalable=no">
+  <link rel="stylesheet"
+    href="https://production-4gnv3qeqb070546b-1312154413.tcloudbaseapp.com/newyear2/css/style.css" />
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: black;
+      user-select: none;
+      margin: 0;
+    }
+
+    .city {
+      width: 100%;
+      position: fixed;
+      bottom: 0px;
+      z-index: 100;
+    }
+
+    .tips {
+      z-index: 200;
+      position: absolute;
+      right: 1%;
+      bottom: 1%;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 18px;
+    }
+
+    .city img {
+      width: 100%;
+    }
+
+    audio {
+      opacity: 0;
+    }
+
+    .shape {
+      z-index: 9999 !important;
+    }
+
+    .username {
+      width: 90%;
+      overflow: hidden;
+      position: fixed;
+      left: 50%;
+      top: 40%;
+      transform: translate(-50%, 0);
+      font-size: 100px;
+      z-index: 100;
+      color: #fff;
+      text-align: center;
+    }
+  </style>
+  <title>2023新年快乐</title>
+</head>
+
+<body onselectstart="return false">
+  <canvas id="cas" style="background-color: rgba(0, 5, 24, 1); z-index: 9999">
+    浏览器不支持canvas
+  </canvas>
+  <div class="username"></div>
+  <div class="tips">点击屏幕加音效</div>
+  <div class="city">
+    <img src="https://production-4gnv3qeqb070546b-1312154413.tcloudbaseapp.com/newyear2/img/city.png" alt="" />
+  </div>
+  <script>
+    const query = new URLSearchParams(location.search)
+    const preview = query.get('p')
+    let data = query.get("data");
+    try {
+      data = JSON.parse(decodeURIComponent(data)) || {};
+    } catch (err) {
+      console.log("err", err);
+      data = {};
+    }
+    //data=data
+
+    const initData = {
+      text: '',
+      textColor: 'ffffff',
+      shapes: [
+        {
+          type: 'text',
+          value: '🏮2023新年快乐'
+        },
+        {
+          type: 'text',
+          value: '🏮恭喜发财'
+        },
+        {
+          type: 'text',
+          value: '🏮万事如意'
+        },
+        {
+          type: 'text',
+          value: '🏮💰🐰无忧'
+        },
+        {
+          type: 'text',
+          value: '🏮🐰然暴富'
+        },
+        {
+          type: 'text',
+          value: '🏮好事成🐰'
+        },
+        {
+          type: 'text',
+          value: '🏮大展宏🐰'
+        },
+      ],
+      imgs: ['','']
+    }
+
+    const opt = Object.assign({}, initData, data)
+
+    // greeting转成shapes(String->Array)
+    if (opt.greeting) {
+      opt.shapes = opt.greeting.split(/\n+/).filter(item => item.length > 0)
+    }
+
+
+    // 增加文字出现几率
+    opt.shapes.push(...opt.shapes);
+    opt.shapes = opt.shapes.map(item => {
+      if (typeof item === 'string') {
+        const [name, ext] = item.split('.')
+        return {
+          type: item.startsWith('data:image') || /png|jpe?g|gif|webp/.test(ext) ? 'image' : 'text',
+          value: item
+        }
+      }
+      return item;
+    });
+    console.log('opt.shapes', opt.shapes)
+
+    // 把imgs写入shapes
+    const imgs = opt.imgs.map((item, idx) => {
+      return { type: 'image', value: item }
+    })
+    opt.shapes.push(...imgs)
+
+    const $username = document.querySelector('.username');
+    $username.innerHTML = opt.text;
+    $username.style.color = "#" + opt.textColor;
+
+  </script>
+  <script
+    src="https://production-4gnv3qeqb070546b-1312154413.tcloudbaseapp.com/newyear2/js/fire.js?t=202212302250"></script>
+  <script
+    src="https://production-4gnv3qeqb070546b-1312154413.tcloudbaseapp.com/newyear2/js/index.js?t=202212302250"></script>
+</body>
+
+</html>
